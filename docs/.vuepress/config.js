@@ -14,7 +14,7 @@ module.exports = {
     editLinkText: '编辑此页面', // 编辑此页链接的文字。
     lastUpdatedText: '最近更新时间', // 最近更新时间戳 标签的文字。
     contributorsText: '贡献者列表',// 贡献者列表 标签的文字。
-    // 编辑文档
+    // 编辑文档设置
     docsRepo: 'https://github.com/houchao233/my-vuepress',
     docsBranch: 'main',
     docsDir: 'docs',
@@ -22,7 +22,12 @@ module.exports = {
     // 导航
     navbar: [
       { text: "首页", link: "/" },
-      { text: "我的笔记", link: "/myNotes/" },
+      { text: "环境搭建", children:[
+        {
+          text: 'Nexus',
+          link: "/myNotes/"
+        }
+      ] },
       { text: "前端总结", link: "/mySummary/" },
       { text: "生活感悟", link: "/myLife/" },
       { text: "关于", link: "/about/" },
@@ -32,9 +37,10 @@ module.exports = {
     sidebar: {
       "/myNotes/": [
         {
-          text: '我的笔记',
+          text: '环境搭建',
           children: [
-            { text: "笔记一", link: "/myNotes/" },
+            "/myNotes/index.md",
+            "/myNotes/npm.md",
           ]
         }
       ],
@@ -65,6 +71,7 @@ module.exports = {
     },
   }),
   plugins: [
+    // 搜索插件
     searchPlugin({
       isSearchable: (page) => page.path !== '/',  // 排除首页
       locales: {
