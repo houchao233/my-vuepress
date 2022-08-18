@@ -4,7 +4,7 @@ title: Home
 heroImage: /images/hero.png
 actions:
   - text: 开始起步
-    link: /myNotes/
+    link: /myBuild/nexus.md
     type: primary
   - text: 关于我们
     link: /about/
