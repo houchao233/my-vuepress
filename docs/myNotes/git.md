@@ -1,59 +1,6 @@
 # git常用命令
 
-## git配置
-
-`git config -l` 查看当前git环境详细配置
-
-### 查看系统config
-
-`git config --system --list`
-
-配置文件在`git安装目录/etc/gitconfig`
-
-### 查看当前用户配置
-
-`git config --global --list`
-
-配置文件在`~/.gitconfig`
-
-### 查看当前仓库配置信息
-
-`git config --local --list`
-
-配置文件在`当前项目的/.git/config`
-
-### 修改git配置
-
-`git config [--local][--global][--system] section.key value`
-
-`git config --local user.name huhuhu` 设置当前项目的用户名
-
-`git config --global core.quotepath false` 配置当前用户的编码项，可以解决中文编码问题
-
-`git config --local core.ignorecase false` 配置当前项目不忽略文件大小写，git默认忽略文件名的大小写，这点值得注意
-
-## git基本知识
-
-使用远程仓库时候会有多个协议可以选择，使用https不仅仅速度慢，而且每次push都要输入口令。
-
-### git关键字解释
-
-`HEAD` 当前版本的指针，当切换本地版本的时候会快速指向指定版本文件
-
-`master` git为我们创建主分支
-
-`origin` 远程仓库的名称
-
-### git文件的四种状态
-
-*   Untracked: 未跟踪, 此文件在文件夹中, 但并没有加入到git库, 不参与版本控制. 通过git add 状态变为Staged.
-*   Unmodify: 文件已经入库, 未修改, 即版本库中的文件快照内容与文件夹中完全一致. 这种类型的文件有两种去处, 如果它被修改, 而变为Modified. 如果使用git rm移出版本库, 则成为Untracked文件
-*   Modified: 文件已修改, 仅仅是修改, 并没有进行其他的操作. 这个文件也有两个去处, 通过git add可进入暂存staged状态, 使用git checkout 则丢弃修改过, 返回到unmodify状态, 这个git checkout即从库中取出文件, 覆盖当前修改
-*   Staged: 暂存状态. 执行git commit则将修改同步到库中, 这时库中的文件和本地文件又变为一致, 文件为Unmodify状态. 执行git reset HEAD filename取消暂存, 文件状态为Modified
-
-## git常用命令
-
-### init && clone
+## init && clone
 
 `git init` 在当前目录新建一个仓库
 
@@ -61,23 +8,13 @@
 
 `git clone [url]` 克隆一个远程仓库
 
-### diff
-
-`git diff HEAD -- .` 查看最新本地版本库和工作区所有文件的区别
-
-`git diff HEAD -- [file-name]` 查看最新本地版本库和工作区文件的却别
-
-`git diff HEAD^ -- [file-name]` 查看本地上一个版本和工作区文件的却别
-
-`git diff [local branch] origin/[remote branch]` 比较本地分支和远程分支的区别
-
-### status
+## status
 
 `git status [file-name]` 查看指定文件状态
 
 `git status` 查看所有文件状态
 
-### add
+## add
 
 `git add [file-name1] [file-name2] ...` 从工作区添加指定文件到暂存区
 
@@ -87,7 +24,7 @@
 
 `git add -A .` A指all，将工作区被修改、被删除、新增的文件都提交到暂存区
 
-### commit
+## commit
 
 `git commit -m [massage]` 将暂存区所有文件添加到本地仓库
 
@@ -99,11 +36,55 @@
 
 加`-m`是指直接在后面写上版本的注释，不加`-m`的话会用一个vim打开文件让你写入massage，有未追踪的文件将会失败，需要add加入暂存区。
 
-### clean
+## pull
+
+`git pull` 从远程仓库拉取代码到工作空间
+
+## push
+
+`git push` 将文件添加到远程仓库
+
+`git push -f` 强制提交，当我们本地reset到旧的版本时，然后普通push会被拦截，因为此时本地HEAD指向比远程库还要旧
+
+`git push origin [branch-name]` 推送当前本地分支到指定远程分支
+
+## checkout
+
+`git checkout [branch]` 切换分支
+
+`git checkout -b [new-branch-name]` 创建并切换分支
+
+## merge
+
+`git merge` 合并本地`origin/[branch-name]`和`HEAD->[branch-name]`的代码，并同步到工作空间
+
+`git merge [branch-name]` 用于合并指定分支到当前分支
+
+`git merge --quit` 退出当前分支合并，当合并后冲突很多，要撤回合并分支就可以用这个命令
+
+`git merge --abort` 该命令仅仅在合并后导致冲突时才使用。git merge --abort将会抛弃合并过程并且尝试重建合并前的状态。
+
+## branch
+
+`git branch [branch-name]` 创建分支
+
+`git branch` 查看当前分支
+
+`git branch -a` 查看本地和远程的所有分支
+
+`git branch -r` 查看远程所有分支
+
+`git branch -d [branch-name]` 删除一个分支
+
+`git branch -D [branch-name]` 强制删除一个没有合并的分支
+
+`git branch --set-upstream-to=origin/[branch-name] [branch-name]` 把本地分支和远程分支进行连接
+
+## clean
 
 `git clean -df` 加`-d`是指包含目录，加`-f`是指强制，删除所有未跟踪的文件
 
-### log
+## log
 
 `git log` 显示所有commit日志
 
@@ -115,37 +96,17 @@
 
 `git log -3` 查看最新3条commit日志数据
 
-### reflog
+## reflog
 
 `git reflog` 显示操作本地版本库的命令，包括commit和reset等，在回退版本以后又后悔找不到commit id了可以使用此命令查看历史
 
-#### push
-
-`git push` 将文件添加到远程仓库
-
-`git push -f` 强制提交，当我们本地reset到旧的版本时，然后普通push会被拦截，因为此是本地HEAD指向比远程库还要旧
-
-`git push origin [branch-name]` 推送当前本地分支到指定远程分支
-
-### rm
+## rm
 
 `git rm --cached [file-name]` 删除暂存区的文件
 
 `git rm -rf .` 不但删除所有暂存区的文件，还删除所有工作区的物理文件
 
-### checkout
-
-`git checkout -- [file-name]`
-
-*   最好加`--`，没有的话就把它当作切换分支看待，切换到另一个分支了，如果没有这个分支也会把它当作文件执行。
-*   用暂存区的文件覆盖掉工作区的文件
-*   如果暂存区没有可更新的就会用commit的文件更新工作区的文件
-
-`git checkout [branch]` 切换分支
-
-`git checkout -b [new-branch-name]` 创建并切换分支
-
-### reset
+## reset
 
 **当对整个版本进行操作**
 
@@ -175,7 +136,7 @@
 
 `git reset [branch]` 切换分支，但这里的切换分支和上面的`git checkout [branch]`切换分支不同。
 
-### revert
+## revert
 
 `git revert -n [commit-id]`
 
@@ -189,49 +150,24 @@
 ***revert*** 会将指定的bug版本视为bug版，会将当前版本中的bug版的代码删除，生成新的commit覆盖掉当前commit，但是commit-id是不会变的。
 :::
 
-### branch
-
-`git branch [branch-name]` 创建分支
-
-`git branch` 查看当前分支
-
-`git branch -a` 查看本地和远程的所有分支
-
-`git branch -r` 查看远程所有分支
-
-`git branch -d [branch-name]` 删除一个分支
-
-`git branch -D [branch-name]` 强制删除一个没有合并的分支
-
-`git branch --set-upstream-to=origin/[branch-name] [branch-name]` 把本地分支和远程分支进行连接
-
-### merge
-
-`git merge` 合并本地`origin/[branch-name]`和`HEAD->[branch-name]`的代码，并同步到工作空间
-
-`git merge [branch-name]` 用于合并指定分支到当前分支
-
-`git merge --quit` 退出当前分支合并，当合并后冲突很多，要撤回合并分支就可以用这个命令
-
-`git merge --no-ff -m [massage] [branch-name]` 不使用Fast forward合并分支，这样会创建新的commit，所以需要massage。这样被合并的分支HEAD指向是会变的。
-
-:::tip
-如果使用了Fast forward方式合并分支，那么删除次要分支的时候历史分支记录也会被删除，这样就无法追寻分支合拼信息了。
-:::
-
-### switch
+## switch
 
 `git switch -c [branch-name]` 创建新分支并切换到该分支
 
 `git switch [branch-name]` 切换到已有分支
 
-### stash
+:::tip
+`git switch` 和 `git checkout` 在切换分支的作用上是相似的，但 `git checkout` 其他功能性方面更强一些
+:::
+
+## stash
+
+> 用于暂存当前修改的文件
+
+如果不隐藏自己修改的半成品代码，就会发生切换到别的分支后，将然后自己的半成品代码带入其他分支，这样就发生很多不必要的麻烦。
+
 
 `git stash` 隐藏当前工作的修改
-
-:::tip
-如果不隐藏自己修改的半成品代码，就会发生切换到别的分支后，将然后自己的半成品代码带入其他分支，这样就发生很多不必要的麻烦。
-:::
 
 `git stash save message` 执行存储时，添加备注，方便查找，只有git stash 也要可以的，但查找时不方便识别。
 
@@ -239,19 +175,14 @@
 
 `git stash drop` 删除隐藏的工作信息
 
-`git stash pop` 恢复隐藏的工作信息，同时删除隐藏的工作信息
+`git stash pop` 应用最近一次暂存的修改，并删除暂存的记录
 
-`git stash apply [stash@{0}]` 恢复指定的隐藏工作信息，但是不会删除隐藏的工作信息
+`git stash apply` 恢复指定的隐藏工作信息，但是不会删除隐藏的工作信息，如果要使用其他个，默认使用第一个存储，即 stash@{0}，如果要使用其他个，git stash apply stash@{$num}  。
 
-### cherry-pick
+`git stash clear` 删除所有缓存的 stash
 
-`git cherry-pick [commit-id]` 这个是复制一次commit提交，然后在当前分支上重新提交一遍；也就是将指定commit的合并到当前分支；
 
-:::tip
-这种适用于在其他分支上修复了bug，但是这个bug在当前分支上依然存在，所以可以复制这个commit的过程，不必重写代码。
-:::
-
-### remote
+## remote
 
 `git remote add origin 远程地址` 关联远程仓库
 
@@ -261,19 +192,18 @@
 
 `git remote remove origin` 删除本地指定的远程地址
 
-### fetch
+## fetch
 
 `git fetch` 拉取远程分支最新的commit到本地仓库的`origin/[branch-name]`
 
-### pull
+`git fetch` 命令通常用来查看其他人的进程，操作仅仅只会拉取远程的更改，不会自动进行 merge 操作。对你当前的代码没有影响
 
-`git pull` 从远程仓库拉取代码到工作空间
-
+:::tip
 **pull 和 fetch的关系**
 
-*   `git pull` == `git fetch` + `git merge`
-
-### tag
+`git pull` == `git fetch` + `git merge`
+:::
+## tag
 
 `git tag` 查看所有标签
 
@@ -285,10 +215,34 @@
 
 `git tag -d [version]` 删除标签
 
-### show
+## show
 
 `git show [tag-name]` 查看标签的详细信息
 
-### rebase
+## cherry-pick
 
-`git rebase -i HEAD~2` 合并前两个历史提交，会弹出vim修改信息，修改第二行的pick为s，或者为squash，squash为合并的意识，然后保存退出编辑，会打开第二个vim编辑，合并并修改commit内容，保存退出会产生一个新的commit id，这样就合并了两个commit
+`git cherry-pick [commit-hash]` 这个是复制一次commit提交，然后在当前分支上重新提交一遍；也就是将指定commit的合并到当前分支；
+
+commit-hash 表示的是某次 commit 的 hash 值。
+
+:::tip
+适用于想把其他分支上指定提交合并到当前分支上
+:::
+
+## rebase
+`git rebase [branch-name]` 将当前分支变基到[branch-name]目标分支
+
+>张三从master的提交B拉了分支进行开发，目前提交了两次，开发到D了；李四也从B拉出来开发了并且开发完毕，他提交了M，然后合到master上了。此时张三想拉下最新代码，于是他在feature分支上执行了git rebase master，即把master分支给rebase过来，由于李四更早开发完并合了主干，如此就相当于张三是基于李四的最新提交M进行的开发了。
+[参考](https://juejin.cn/post/7103560564466515981)
+
+`git rebase -i HEAD~2` 通过vim对提交进行相关操作，HEAD~2代表选择离HEAD最近的两条提交。
+
+> 在git push之前，可以通过当前命令对本地分支的提交进行提交合并、提交信息修改等操作，使得推送到远端的git日志更清晰明了。
+[参考](https://blog.csdn.net/the_power/article/details/104651772/)
+
+`git rebase --continue` 继续变基
+
+在 rebase 的过程中，也许会出现冲突。在这种情况，git 会停止 rebase 并会让你去解决冲突。在解决完冲突后，用`git add`命令去更新这些内容，之后用`git rebase --continue`继续变基剩下的。
+
+`git rebase —abort` 取消变基，分支会回到 rebase 开始前的状态。
+
