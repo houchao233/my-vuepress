@@ -235,6 +235,10 @@ commit-hash 表示的是某次 commit 的 hash 值。
 >张三从master的提交B拉了分支进行开发，目前提交了两次，开发到D了；李四也从B拉出来开发了并且开发完毕，他提交了M，然后合到master上了。此时张三想拉下最新代码，于是他在feature分支上执行了git rebase master，即把master分支给rebase过来，由于李四更早开发完并合了主干，如此就相当于张三是基于李四的最新提交M进行的开发了。
 [参考](https://juejin.cn/post/7103560564466515981)
 
+:::tip
+这时可能需要执行 `git push -f origin 当前分支` 对当前分支进行强行推送
+:::
+
 `git rebase -i HEAD~2` 通过vim对提交进行相关操作，HEAD~2代表选择离HEAD最近的两条提交。
 
 > 在git push之前，可以通过当前命令对本地分支的提交进行提交合并、提交信息修改等操作，使得推送到远端的git日志更清晰明了。

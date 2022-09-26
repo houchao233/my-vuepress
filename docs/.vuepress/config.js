@@ -4,7 +4,8 @@ const { searchPlugin } = require('@vuepress/plugin-search')
 // 我的笔记目录
 const myNotes = [
   "/myNotes/linux.md",
-  "/myNotes/git.md"
+  "/myNotes/git.md",
+  "/myNotes/function.md"
 ]
 
 // 环境搭建目录
